@@ -90,11 +90,13 @@ CaptureConfig = TypedDict(
     },
 )
 
-DEFAULT_CONFIG_FILE = "config.json"
+LOCAL_PATH = "."
 try:
-    DEFAULT_CONFIG_FILE = os.path.join(sys._MEIPASS, DEFAULT_CONFIG_FILE)
+    LOCAL_PATH = sys._MEIPASS
 except Exception:
     pass
+
+DEFAULT_CONFIG_FILE = os.path.join(LOCAL_PATH, "config.json")
 
 # Default Config
 DEFAULT_CONFIG : CaptureConfig= {
@@ -104,7 +106,7 @@ DEFAULT_CONFIG : CaptureConfig= {
     # Maximum number of pages to capture (None for all)
     "max_pages": None, 
     # Output path
-    "output_path": "out",
+    "output_path": os.path.join(LOCAL_PATH, "out"),
     # Output PDF file name (if None, uses title or default)
     "output": None,
     # Default PDF file name if none found
@@ -437,7 +439,7 @@ def capture_pages_to_pdf(config: CaptureConfig, progress_dict=None, download_has
         else:  
             final_output = DEFAULT_OUTPUT
 
-    final_output = os.path.join('out', final_output)
+    final_output = os.path.join(config["output_path"], final_output)
 
     print(f"Generating PDF with {len(images)} images...")
 
@@ -658,7 +660,7 @@ if __name__ == "__main__":
             from flask import send_file
             if hash in download_hashes:
                 filename = download_hashes[hash]
-                return send_file(os.path.join('out', filename), as_attachment=True)
+                return send_file(os.path.join(config['output_path'], filename), as_attachment=True)
             return "File not found", 404
 
         app.run(host="0.0.0.0", port=5000,debug=True)
