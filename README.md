@@ -17,6 +17,13 @@ or you can install with docker (recommended for web use) with
 docker compose up
 ```
 
+Or via pyinstaller
+```
+venv\Scripts\activate
+pip install pyinstaller
+pyinstaller --add-data "config.json:." --onefile .\pdf-capture.py
+```
+
 ## Use
 
 From command line 

@@ -1,4 +1,5 @@
 import os
+import sys
 import urllib.request
 import re
 from selenium import webdriver
@@ -89,11 +90,15 @@ CaptureConfig = TypedDict(
     },
 )
 
-
+DEFAULT_CONFIG_FILE = "config.json"
+try:
+    DEFAULT_CONFIG_FILE = os.path.join(sys._MEIPASS, DEFAULT_CONFIG_FILE)
+except Exception:
+    pass
 
 # Default Config
 DEFAULT_CONFIG : CaptureConfig= {
-    "config": "config.json",
+    "config": DEFAULT_CONFIG_FILE,
     # Delay after clicking next/prev button (default: 0.5s)
     "delay_after_click": 2,
     # Maximum number of pages to capture (None for all)
@@ -467,13 +472,14 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", default=None, help="Output PDF file")
     parser.add_argument("-m", "--max-pages", type=int, default=DEFAULT_MAX_PAGES, help="Max pages to capture (default: all)")
     parser.add_argument("--headless", action="store_true", help="Run Chrome in headless mode")
-    parser.add_argument("-c", "--config", default=config.get('config'), help="Path to JSON config file with site definitions and options")
+    parser.add_argument("-c", "--config", default=None, help="Path to JSON config file with site definitions and options")
     
     args = parser.parse_args()
-
+    configfile = args.config or config["config"] or DEFAULT_CONFIG_FILE
+    
     try:
-        with open(args.config, 'r') as f:
-            print(f"Loading config from {args.config}")
+        with open(configfile, 'r') as f:
+            print(f"Loading config from {configfile}")
             user_config = json.load(f)
             config.update(user_config)
             # Re-Add default site definition
@@ -482,7 +488,7 @@ if __name__ == "__main__":
     except Exception as e:
         if args.config:
             print("Failed to load config file:", e)
-            exit(1)
+            sys.exit(1)
     
     if args.url:
         config['url'] = args.url
