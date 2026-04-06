@@ -1,0 +1,19 @@
+services:
+  pdf-capture:
+    build: .
+    container_name: pdf-capture
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+  #   depends_on:
+  #     - selenium
+  #   environment:
+  #     - SELENIUM_URL=http://selenium:4444/wd/hub
+  # selenium:
+  #   image: selenium/standalone-chrome:latest
+  #   shm_size: 2g
+  #   ports:
+  #     - "4444:4444"
+  #     - "7900:7900"   # VNC pour voir le navigateur
+  #   restart: unless-stopped
+

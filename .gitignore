@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+
+# Environment
+.env
+
+# Output directory
+out/
+
+# Keep config local 
+config.json 
