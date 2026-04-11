@@ -3,7 +3,7 @@ services:
     build: .
     container_name: pdf-capture
     ports:
-      - "5000:5000"
+      - "4202:4202"
     restart: unless-stopped
   #   depends_on:
   #     - selenium

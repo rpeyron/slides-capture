@@ -1,3 +1,4 @@
 selenium==4.28.0
 pillow==12.1.1
 flask
+pystray

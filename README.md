@@ -21,8 +21,9 @@ Or via pyinstaller
 ```
 venv\Scripts\activate
 pip install pyinstaller
-pyinstaller --add-data "config.json:." --onefile .\pdf-capture.py
+pyinstaller --add-data "config.json:." --add-data "icon.png:." --icon icon.png --windowed --onefile .\pdf-capture.py
 ```
+
 
 ## Use
 
